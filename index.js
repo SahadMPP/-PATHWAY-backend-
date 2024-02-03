@@ -271,6 +271,7 @@ db.once("open", () => {
 
 // connecting to server
 
-app.listen(80, () => {
-    console.log("connected to 80 port");
+const PORT = process.env.PORT || 80;
+app.listen(PORT, () => {
+    console.log("connected to  port");
 })
