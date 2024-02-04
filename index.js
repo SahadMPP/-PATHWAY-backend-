@@ -281,7 +281,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 // const uri = "mongodb+srv://muhdsahad4916:kxvAcV0xZ5MePTKI@testmongo.se5zzhy.mongodb.net/flutter";
-const uri = 
+const uri = "mongodb+srv://muhdsahad4916:kxvAcV0xZ5MePTKI@testmongo.se5zzhy.mongodb.net/?retryWrites=true&w=majority";
 mongoose.set("strictQuery", true);
 
 mongoose.connect(uri);
