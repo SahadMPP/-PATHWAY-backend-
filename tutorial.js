@@ -13,6 +13,10 @@ let tutorialDataSchema = new mongoose.Schema({
         required : true,
         type : String
     },
+    "level":{
+        required : true,
+        type : String
+    },
     "tumbnailImage":{
         required : true,
         type : String

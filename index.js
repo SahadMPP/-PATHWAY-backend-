@@ -273,29 +273,8 @@ db.once("open", () => {
 // connecting to server
 
 
-app.listen(80, () => {
-    console.log("connected to port 80");
+app.listen(5000, () => {
+    console.log("connected to port 5000");
 })
 
 
-// const express = require("express");
-// const mongoose = require("mongoose");
-// const app = express();
-// // const uri = "mongodb+srv://muhdsahad4916:kxvAcV0xZ5MePTKI@testmongo.se5zzhy.mongodb.net/flutter";
-// const uri = "mongodb+srv://muhdsahad4916:kxvAcV0xZ5MePTKI@testmongo.se5zzhy.mongodb.net/?retryWrites=true&w=majority";
-// mongoose.set("strictQuery", true);
-
-// mongoose.connect(uri);
-// const db = mongoose.connection;
-// db.on("error", () => {
-//     console.log("connection error")
-// })
-// db.once("open", () => {
-
-//     console.log("connected in mongodb")
-// })
-
-
-// app.listen(5000, () => console.log("Api running on port"));
-
-// app.get("/", (req, res) => { res.json("My api is running") });
