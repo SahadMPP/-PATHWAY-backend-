@@ -203,7 +203,27 @@ db.once("open", () => {
         }
     });
     // update tutorial
-
+    app.put("/api/update_tutorial/:id", async (req, res) => {
+        const tutorialId = req.params.id;
+        const updateData = req.body;
+    
+        try {
+            // Find the tutorial by its ID and update it
+            const updatedTutorial = await Tutorial.findByIdAndUpdate(tutorialId, updateData, { new: true });
+    
+            // Check if the tutorial was found and updated
+            if (!updatedTutorial) {
+                return res.status(404).json({ message: "Tutorial not found" });
+            }
+    
+            // Send the updated tutorial as a response
+            res.status(200).json(updatedTutorial);
+        } catch (error) {
+            // Handle any errors that occur during the update process
+            res.status(500).json({ message: "Failed to update tutorial", error: error.message });
+        }
+    });
+    
     // delete tutorial
     app.delete("/api/delete_tutorial/:id",async (req,res)=>{
      let id = req.params.id;
