@@ -39,8 +39,8 @@ db.once("open", () => {
 
     console.log("connected in mongodb")
 
-    app.get("/",function (req,res){
-     res.send("helloo");
+    app.get("/", function (req, res) {
+        res.send("helloo");
     })
 
 
@@ -80,41 +80,6 @@ db.once("open", () => {
 
     })
 
-    //  adding  teacher
-    app.post("/api/add_teacher", async (req, res) => {
-
-        const userEmail = req.body.email;
-
-        // not add teacher if already in here
-        const existingUser = await Teacher.findOne({ email: userEmail });
-
-        if (existingUser) {
-            console.log("user already exist");
-
-            return res.status(404).json({
-                "status": "User with this email already exists"
-            })
-        }
-
-
-        // add teacher is not existe
-
-        // console.log("result", req.body);
-
-        let data = Teacher(req.body);
-
-        try {
-            let dataToStore = await data.save();
-            res.status(200).json(dataToStore);
-        } catch (error) {
-
-            res.status(400).json({
-                "status": error.massage
-            })
-
-        }
-
-    })
 
     //  login for student
     app.post("/api/log_student", async (req, res) => {
@@ -206,36 +171,36 @@ db.once("open", () => {
     app.put("/api/update_tutorial/:id", async (req, res) => {
         const tutorialId = req.params.id;
         const updateData = req.body;
-    
+
         try {
-            // Find the tutorial by its ID and update it
+
             const updatedTutorial = await Tutorial.findByIdAndUpdate(tutorialId, updateData, { new: true });
-    
-            // Check if the tutorial was found and updated
+
+
             if (!updatedTutorial) {
                 return res.status(404).json({ message: "Tutorial not found" });
             }
-    
-            // Send the updated tutorial as a response
+
+
             res.status(200).json(updatedTutorial);
         } catch (error) {
-            // Handle any errors that occur during the update process
+
             res.status(500).json({ message: "Failed to update tutorial", error: error.message });
         }
     });
-    
-    // delete tutorial
-    app.delete("/api/delete_tutorial/:id",async (req,res)=>{
-     let id = req.params.id;
 
-    try {
-        const data = await Tutorial.findByIdAndDelete(id);
-        res.status(200).json({
-           "status" : "delete successfully",
-        })
-    } catch (error) {
-        res.status(400).json(error.massage);
-    }
+    // delete tutorial
+    app.delete("/api/delete_tutorial/:id", async (req, res) => {
+        let id = req.params.id;
+
+        try {
+            const data = await Tutorial.findByIdAndDelete(id);
+            res.status(200).json({
+                "status": "delete successfully",
+            })
+        } catch (error) {
+            res.status(400).json(error.massage);
+        }
     });
 
     // complaint CURD Apis ------------------------
@@ -274,18 +239,82 @@ db.once("open", () => {
 
     // delete complaint
 
-    app.delete("/api/delete_complaint/:id",async (req,res)=>{
+    app.delete("/api/delete_complaint/:id", async (req, res) => {
         let id = req.params.id;
 
-       try {
-           const data = await Complaint.findByIdAndDelete(id);
-           res.status(200).json({
-              "status" : "delete successfully",
-           })
-       } catch (error) {
-           res.status(400).json(error.massage);
-       }
-       });
+        try {
+            const data = await Complaint.findByIdAndDelete(id);
+            res.status(200).json({
+                "status": "delete successfully",
+            })
+        } catch (error) {
+            res.status(400).json(error.massage);
+        }
+    });
+
+
+    // Teacher side -- crud
+
+    //  adding  teacher
+    app.post("/api/add_teacher", async (req, res) => {
+
+        const userEmail = req.body.email;
+
+        // not add teacher if already in here
+        const existingUser = await Teacher.findOne({ email: userEmail });
+
+        if (existingUser) {
+            console.log("user already exist");
+
+            return res.status(404).json({
+                "status": "User with this email already exists"
+            })
+        }
+
+
+        // add teacher is not existe
+
+
+        let data = Teacher(req.body);
+
+        try {
+            let dataToStore = await data.save();
+            res.status(200).json(dataToStore);
+        } catch (error) {
+
+            res.status(400).json({
+                "status": error.massage
+            })
+
+        }
+
+    })
+
+    app.get("/api/get_teacher", async (req, res) => {
+        try {
+            let data = await Teacher.find()
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(404).json({
+                "status": error.massage
+            })
+        }
+    });
+
+    app.put("/api/update_teacher/:id", async (req, res) => {
+        const teacherlId = req.params.id;
+        const updateData = req.body;
+        try {
+            const updatedTeacher = await Teacher.findByIdAndUpdate(teacherlId, updateData, { new: true });
+            if (!updatedTeacher) {
+                return res.status(404).json({ message: "Tutorial not found" });
+            }
+            res.status(200).json(updatedTeacher);
+        } catch (error) {
+            res.status(500).json({ message: "Failed to update tutorial", error: error.message });
+        }
+    });
+
 });
 
 
