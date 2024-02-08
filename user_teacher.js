@@ -1,5 +1,21 @@
 const mongoose = require("mongoose");
 
+
+
+const subjectsSchema = new mongoose.Schema({
+  mathematics: Boolean,
+  art: Boolean,
+  science: Boolean,
+  geography: Boolean,
+  socialStudies: Boolean,
+  history: Boolean,
+  computer: Boolean
+})
+
+const certificatesSchema = new mongoose.Schema({
+  certificateOne: String,
+  certificateTwo: String
+})
 let teacherDataSchema = new mongoose.Schema({
 
   name: {
@@ -15,6 +31,7 @@ let teacherDataSchema = new mongoose.Schema({
   },
   appledSubject: {
     type: String,
+
   },
   appledStatus: {
     type: Boolean,
@@ -40,10 +57,7 @@ let teacherDataSchema = new mongoose.Schema({
   officerName: {
     type: String
   },
-  certificates: {
-    type: Map,
-    of: String
-  },
+  certificates:certificatesSchema,
   signatureImage: {
     type: String
   },
@@ -51,13 +65,7 @@ let teacherDataSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
-  subjects: {
-    type: Map,
-    of: {
-      type: Boolean,
-      default: false
-    }
-  }
+  subjects: subjectsSchema
 })
 
 module.exports = mongoose.model("teacher", teacherDataSchema);
