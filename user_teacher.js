@@ -9,12 +9,11 @@ const subjectsSchema = new mongoose.Schema({
   geography: Boolean,
   socialStudies: Boolean,
   history: Boolean,
-  computer: Boolean
+  computer: Boolean,
 })
 
 const certificatesSchema = new mongoose.Schema({
-  certificateOne: String,
-  certificateTwo: String
+
 })
 let teacherDataSchema = new mongoose.Schema({
 
@@ -42,6 +41,23 @@ let teacherDataSchema = new mongoose.Schema({
   mobNumber: {
     type: String
   },
+  certificateOne: String,
+
+  certificateTwo: String,
+
+  mathematics: Boolean,
+
+  art: Boolean,
+
+  science: Boolean,
+
+  geography: Boolean, 
+
+  socialStudies: Boolean,
+
+  history: Boolean,
+
+  computer: Boolean,
   universityName: {
     type: String
   },
@@ -57,7 +73,6 @@ let teacherDataSchema = new mongoose.Schema({
   officerName: {
     type: String
   },
-  certificates:certificatesSchema,
   signatureImage: {
     type: String
   },
@@ -65,7 +80,6 @@ let teacherDataSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
-  subjects: subjectsSchema
 })
 
 module.exports = mongoose.model("teacher", teacherDataSchema);
