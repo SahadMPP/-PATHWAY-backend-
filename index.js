@@ -124,9 +124,8 @@ db.once("open", () => {
         }
 
         if (existingUser.password == userPassword) {
-            return res.status(200).json({
-                "status": "user varified"
-            })
+
+            return res.status(200).json(existingUser)
         } else {
             return res.status(404).json({
                 "status": "password is wrong"
