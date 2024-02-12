@@ -315,6 +315,19 @@ db.once("open", () => {
         }
     });
 
+    // student side crud ------------
+
+    app.get("/api/get_student",async(req,res)=>{
+        try {
+            let data = await Student.find();
+        res.status(200).json(data);
+        } catch (error) {
+            res.status(404).json({
+                "status" : error.massage
+            })
+        }
+    });
+
 });
 
 

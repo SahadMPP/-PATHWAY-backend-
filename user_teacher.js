@@ -58,6 +58,7 @@ let teacherDataSchema = new mongoose.Schema({
   history: Boolean,
 
   computer: Boolean,
+  
   universityName: {
     type: String
   },
