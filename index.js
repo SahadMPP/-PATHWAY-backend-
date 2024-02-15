@@ -17,6 +17,7 @@ const Student = require("./user_student");
 
 const Teacher = require("./user_teacher");
 
+
 const Tutorial = require("./tutorial");
 
 const Complaint = require("./complaint");
@@ -40,7 +41,7 @@ db.once("open", () => {
     console.log("connected in mongodb")
 
     app.get("/", function (req, res) {
-        res.send("helloo");
+        res.send("local host is connected");
     })
 
 
