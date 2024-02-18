@@ -335,8 +335,28 @@ db.once("open", () => {
 // connecting to server
 
 
-app.listen(5000, () => {
+const server = app.listen(5000, () => {
     console.log("connected to port 5000");
 })
 
+const io = require('socket.io')(server);
 
+const connectUser = new Set();
+
+io.on('connection',(socket)=>{
+    console.log("socket Connected Successfully",socket.id);
+    connectUser.add(socket.id);
+    io.emit('connected-user',connectUser.size);
+
+    
+    socket.on('disconnect',()=>{
+        console.log('Disconnected socket',socket.id);
+        connectUser.delete(socket.id);
+        io.emit('connected-user',connectUser.size);
+    });
+    socket.on('message',(data)=>{
+       console.log(data);
+       socket.broadcast.emit('message-receive',data);
+       
+    });
+});
