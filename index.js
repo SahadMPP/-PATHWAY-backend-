@@ -298,6 +298,20 @@ db.once("open", () => {
             })
         }
     });
+    
+    // getting one student
+    
+    app.get("/api/get_studentById/:id",async (req,res)=>{
+       let id = req.params.id;
+        try {
+            let data = await Student.findById(id)
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(404).json({
+                "status": error.massage
+            })
+        }
+    });
 
     app.put("/api/update_teacher/:id", async (req, res) => {
         const teacherlId = req.params.id;
