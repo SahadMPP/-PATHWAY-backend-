@@ -41,7 +41,7 @@ db.once("open", () => {
     console.log("connected in mongodb")
 
     app.get("/", function (req, res) {
-        res.send("local host is connected");
+        res.send("hosted in 5000");
     })
 
 
@@ -339,11 +339,20 @@ const server = app.listen(5000, () => {
     console.log("connected to port 5000");
 })
 
+
+// setuping websoket
+
+
 const io = require('socket.io')(server);
 
 const connectUser = new Set();
 
 io.on('connection',(socket)=>{
+
+    app.get("/", function (req, res) {
+        res.send("socket Connected Successfully");
+    })
+
     console.log("socket Connected Successfully",socket.id);
     connectUser.add(socket.id);
     io.emit('connected-user',connectUser.size);
