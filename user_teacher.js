@@ -50,9 +50,14 @@ const userSchema = new mongoose.Schema({
     default: true,
   },
   subjects: {
-    type: Map,
-    of: Boolean
-  }
+    mathematics: { type: Boolean, default: false },
+    art: { type: Boolean, default: false },
+    science: { type: Boolean, default: false },
+    geography: { type: Boolean, default: false },
+    socialStudies: { type: Boolean, default: false },
+    history: { type: Boolean, default: false },
+    computer: { type: Boolean, default: false },
+  },
 });
 
 const User = mongoose.model('teacher', userSchema);
