@@ -1,23 +1,3 @@
-// const mongoose = require("mongoose");
-
-// let StudentDataShema = new mongoose.Schema({
-
-//     "name":{
-//         required : true,
-//         type : String
-//     },
-//     "email":{
-//         required : true,
-//         type : String
-//     },
-//     "password":{
-//         required : true,
-//         type : String
-//     },
-// });
-
-// module.exports = mongoose.model("student",StudentDataShema);
-
 const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
@@ -27,10 +7,15 @@ const studentSchema = new mongoose.Schema({
     password: String,
     mobNumber: {
         type: String,
-      },
+    },
     subjects: {
-        type: Map,
-        of: Boolean
+        mathematics: { type: Boolean, default: false },
+        art: { type: Boolean, default: false },
+        science: { type: Boolean, default: false },
+        geography: { type: Boolean, default: false },
+        socialStudies: { type: Boolean, default: false },
+        history: { type: Boolean, default: false },
+        computer: { type: Boolean, default: false },
     },
     active: {
         type: Boolean,

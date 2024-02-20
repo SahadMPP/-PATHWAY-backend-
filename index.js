@@ -41,7 +41,7 @@ db.once("open", () => {
     console.log("connected in mongodb")
 
     app.get("/", function (req, res) {
-        res.send("hosted in 5000");
+        res.send("we are in line");
     })
 
 
@@ -314,16 +314,30 @@ db.once("open", () => {
             res.status(500).json({ message: "Failed to update tutorial", error: error.message });
         }
     });
+    // update student
+    app.put("/api/update_student/:id", async (req, res) => {
+        const studentId = req.params.id;
+        const updateData = req.body;
+        try {
+            const updatedstudent = await Student.findByIdAndUpdate(studentId, updateData, { new: true });
+            if (!updatedstudent) {
+                return res.status(404).json({ message: "student not found" });
+            }
+            res.status(200).json(updatedstudent);
+        } catch (error) {
+            res.status(500).json({ message: "Failed to update student", error: error.message });
+        }
+    });
 
     // student side crud ------------
 
-    app.get("/api/get_student",async(req,res)=>{
+    app.get("/api/get_student", async (req, res) => {
         try {
             let data = await Student.find();
-        res.status(200).json(data);
+            res.status(200).json(data);
         } catch (error) {
             res.status(404).json({
-                "status" : error.massage
+                "status": error.massage
             })
         }
     });
@@ -347,25 +361,21 @@ const io = require('socket.io')(server);
 
 const connectUser = new Set();
 
-io.on('connection',(socket)=>{
+io.on('connection', (socket) => {
 
-    app.get("/", function (req, res) {
-        res.send("socket Connected Successfully");
-    })
-
-    console.log("socket Connected Successfully",socket.id);
+    console.log("socket Connected Successfully", socket.id);
     connectUser.add(socket.id);
-    io.emit('connected-user',connectUser.size);
+    io.emit('connected-user', connectUser.size);
 
-    
-    socket.on('disconnect',()=>{
-        console.log('Disconnected socket',socket.id);
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected socket', socket.id);
         connectUser.delete(socket.id);
-        io.emit('connected-user',connectUser.size);
+        io.emit('connected-user', connectUser.size);
     });
-    socket.on('message',(data)=>{
-       console.log(data);
-       socket.broadcast.emit('message-receive',data);
-       
+    socket.on('message', (data) => {
+        console.log(data);
+        socket.broadcast.emit('message-receive', data);
+
     });
 });
