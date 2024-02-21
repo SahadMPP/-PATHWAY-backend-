@@ -42,9 +42,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: false,
   },
-  certificates: {
-    type: Map,
-    of: String
+  certificatesOne: {
+    type: String
+  },
+  certificatesTwo: {
+    type: String
   },
   signatureImage: {
     type: String
