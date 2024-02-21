@@ -1,5 +1,17 @@
 const mongoose = require('mongoose');
 
+
+// const subjects = new mongoose.Schema({
+//     mathematics: { type: Boolean },
+//     art: { type: Boolean },
+//     science: { type: Boolean },
+//     geography: { type: Boolean },
+//     socialStudies: { type: Boolean },
+//     history: { type: Boolean },
+//     computer: { type: Boolean },
+// });
+
+
 const studentSchema = new mongoose.Schema({
     name: String,
     age: String,
@@ -8,15 +20,7 @@ const studentSchema = new mongoose.Schema({
     mobNumber: {
         type: String,
     },
-    subjects: {
-        mathematics: { type: Boolean, default: false },
-        art: { type: Boolean, default: false },
-        science: { type: Boolean, default: false },
-        geography: { type: Boolean, default: false },
-        socialStudies: { type: Boolean, default: false },
-        history: { type: Boolean, default: false },
-        computer: { type: Boolean, default: false },
-    },
+    subjects: [String],
     active: {
         type: Boolean,
         default: true,

@@ -327,11 +327,13 @@ db.once("open", () => {
         }
     });
     // update student
-    app.put("/api/update_student/:id", async (req, res) => {
-        const studentId = req.params.id;
-        const updateData = req.body;
+    app.patch("/api/update_student/:id", async (req, res) => {
+        let studentId = req.params.id;
+        let updateData = req.body;
+        let options = {new:true};
+        
         try {
-            const updatedstudent = await Student.findByIdAndUpdate(studentId, updateData, { new: true });
+            const updatedstudent = await Student.findByIdAndUpdate(studentId, updateData,options);
             if (!updatedstudent) {
                 return res.status(404).json({ message: "student not found" });
             }
