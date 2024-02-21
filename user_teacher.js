@@ -35,8 +35,12 @@ const userSchema = new mongoose.Schema({
   profileImage: {
     type: String
   },
-  appliedSubject: {
+  appledSubject: {
     type: String
+  },
+  appledStatus: {
+    type: String,
+    default: false,
   },
   certificates: {
     type: Map,
