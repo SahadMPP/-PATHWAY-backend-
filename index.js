@@ -17,10 +17,11 @@ const Student = require("./user_student");
 
 const Teacher = require("./user_teacher");
 
-
 const Tutorial = require("./tutorial");
 
 const Complaint = require("./complaint");
+
+const Lession = require("./lession");
 
 //  connecting to mongodb
 // const uri = "mongodb+srv://muhdsahad4916:kxvAcV0xZ5MePTKI@testmongo.se5zzhy.mongodb.net/flutter";
@@ -355,7 +356,71 @@ db.once("open", () => {
             })
         }
     });
+    
+    // lession crud
 
+    app.post("/api/add_lession", async (req, res) => {
+        let data = Lession(req.body);
+
+        try {
+            let dataToStore = await data.save();
+            res.status(200).json(dataToStore);
+        } catch (error) {
+
+            res.status(400).json({
+                "status": error.massage
+            })
+        }
+
+    });
+
+    // get tutorial
+    app.get("/api/get_lession", async (req, res) => {
+        try {
+            let data = await Lession.find();
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(404).json({
+                "Status": "Data not found",
+                "error": error.massage,
+            })
+        }
+    });
+    // update tutorial
+    app.put("/api/update_lession/:id", async (req, res) => {
+        const tutorialId = req.params.id;
+        const updateData = req.body;
+
+        try {
+
+            const updatedTutorial = await Lession.findByIdAndUpdate(tutorialId, updateData, { new: true });
+
+
+            if (!updatedTutorial) {
+                return res.status(404).json({ message: "Tutorial not found" });
+            }
+
+
+            res.status(200).json(updatedTutorial);
+        } catch (error) {
+
+            res.status(500).json({ message: "Failed to update tutorial", error: error.message });
+        }
+    });
+
+    // delete tutorial
+    app.delete("/api/delete_lession/:id", async (req, res) => {
+        let id = req.params.id;
+
+        try {
+            const data = await Lession.findByIdAndDelete(id);
+            res.status(200).json({
+                "status": "delete successfully",
+            })
+        } catch (error) {
+            res.status(400).json(error.massage);
+        }
+    });
 });
 
 

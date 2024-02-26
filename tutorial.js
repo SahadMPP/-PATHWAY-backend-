@@ -35,4 +35,4 @@ let tutorialDataSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model("tutorial",tutorialDataSchema);
+module.exports = mongoose.model("Tutorial",tutorialDataSchema);
