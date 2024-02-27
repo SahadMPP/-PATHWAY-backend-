@@ -300,6 +300,18 @@ db.once("open", () => {
         }
     });
     
+    app.get("/api/get_teacherById/:id", async (req, res) => {
+        let id = req.params.id;
+        try {
+            let data = await Teacher.findById(id)
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(404).json({
+                "status": error.massage
+            })
+        }
+    });
+    
     // getting one student
     
     app.get("/api/get_studentById/:id",async (req,res)=>{
@@ -421,6 +433,9 @@ db.once("open", () => {
             res.status(400).json(error.massage);
         }
     });
+
+  
+    
 });
 
 

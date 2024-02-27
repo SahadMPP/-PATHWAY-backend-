@@ -13,6 +13,9 @@ const tutorialSchema = new mongoose.Schema({
   profileImage: {
     type: String,
   },
+  coverImage: {
+    type: String,
+  },
   countOfLesson: {
     type: Number,
     default: 0
