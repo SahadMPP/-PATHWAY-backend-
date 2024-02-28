@@ -5,19 +5,7 @@ let tutorialDataSchema = new mongoose.Schema({
         required : true,
         type : String
     },
-    "creator":{
-        required : true,
-        type : String
-    },
-    "category":{
-        required : true,
-        type : String
-    },
     "level":{
-        required : true,
-        type : String
-    },
-    "tumbnailImage":{
         required : true,
         type : String
     },
