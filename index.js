@@ -166,6 +166,7 @@ db.once("open", () => {
             })
         }
     });
+    
     // update tutorial
     app.put("/api/update_tutorial/:id", async (req, res) => {
         const tutorialId = req.params.id;
@@ -390,6 +391,21 @@ db.once("open", () => {
     app.get("/api/get_lession", async (req, res) => {
         try {
             let data = await Lession.find();
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(404).json({
+                "Status": "Data not found",
+                "error": error.massage,
+            })
+        }
+    });
+
+    // get one lesson
+
+    app.get("/api/get_lessionById/:id", async (req, res) => {
+        let id = req.params.id;
+        try {
+            let data = await Lession.findById(id);
             res.status(200).json(data);
         } catch (error) {
             res.status(404).json({
