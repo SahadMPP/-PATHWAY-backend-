@@ -19,7 +19,8 @@ const studentSchema = new mongoose.Schema({
     },
     level: String,
     profileImage: {
-        type: String
+        type: String,
+        default: ""
     },
 });
 

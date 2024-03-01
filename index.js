@@ -1,8 +1,18 @@
 const express = require("express");
 
+const router = express.Router();
+
 const mongoose = require("mongoose");
 
+// for image
+const multer = require('multer');
+
+const path = require("path");
+
 const app = express();
+
+app.use("/uploads",express.static("uploads"));
+
 
 app.use(express.json());
 
@@ -23,7 +33,40 @@ const Complaint = require("./complaint");
 
 const Lession = require("./lession");
 
+// image codes setups
+
+//multer conficaration
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./uploads");
+
+    },
+    filename: (req, file, cb) => {
+        cb(null,req.params.id+".jpg");
+    },
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype == "image/jpeg" || IdleDeadline.mimetype == "image/png") {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 6,
+    },
+    fileFilter: fileFilter,
+});
+
+
+
 //  connecting to mongodb
+
 // const uri = "mongodb+srv://muhdsahad4916:kxvAcV0xZ5MePTKI@testmongo.se5zzhy.mongodb.net/flutter";
 
 const uri = "mongodb+srv://muhdsahad4916:kxvAcV0xZ5MePTKI@testmongo.se5zzhy.mongodb.net/?retryWrites=true&w=majority"
@@ -35,6 +78,8 @@ mongoose.connect(uri);
 const db = mongoose.connection;
 db.on("error", () => {
     console.log("connection error")
+
+
 })
 
 db.once("open", () => {
@@ -44,6 +89,24 @@ db.once("open", () => {
     app.get("/", function (req, res) {
         res.send("we are in line");
     })
+
+
+    app.patch("/add/image/:id", upload.single('coverImage'), async (req, res) => {
+        let id = req.params.id;
+        try {
+            const updateLession = await Lession.findByIdAndUpdate(
+                id, 
+                { $set: { coverImage: req.file.path } },
+                { new: true }
+            );
+            if (!updateLession) {
+                return res.status(404).json({ message: "Lesson not found" });
+            }
+            res.status(200).json(updateLession); // Corrected variable name
+        } catch (error) {
+            res.status(500).json({ message: "Failed to update lesson", error: error.message }); // Corrected message
+        }
+    });
 
 
     // Authentication Apis ------------------------
@@ -166,7 +229,7 @@ db.once("open", () => {
             })
         }
     });
-    
+
     // update tutorial
     app.put("/api/update_tutorial/:id", async (req, res) => {
         const tutorialId = req.params.id;
@@ -300,7 +363,7 @@ db.once("open", () => {
             })
         }
     });
-    
+
     app.get("/api/get_teacherById/:id", async (req, res) => {
         let id = req.params.id;
         try {
@@ -312,11 +375,11 @@ db.once("open", () => {
             })
         }
     });
-    
+
     // getting one student
-    
-    app.get("/api/get_studentById/:id",async (req,res)=>{
-       let id = req.params.id;
+
+    app.get("/api/get_studentById/:id", async (req, res) => {
+        let id = req.params.id;
         try {
             let data = await Student.findById(id)
             res.status(200).json(data);
@@ -344,10 +407,10 @@ db.once("open", () => {
     app.patch("/api/update_student/:id", async (req, res) => {
         let studentId = req.params.id;
         let updateData = req.body;
-        let options = {new:true};
-        
+        let options = { new: true };
+
         try {
-            const updatedstudent = await Student.findByIdAndUpdate(studentId, updateData,options);
+            const updatedstudent = await Student.findByIdAndUpdate(studentId, updateData, options);
             if (!updatedstudent) {
                 return res.status(404).json({ message: "student not found" });
             }
@@ -369,7 +432,7 @@ db.once("open", () => {
             })
         }
     });
-    
+
     // lession crud
 
     app.post("/api/add_lession", async (req, res) => {
@@ -450,8 +513,8 @@ db.once("open", () => {
         }
     });
 
-  
-    
+
+
 });
 
 
