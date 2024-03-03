@@ -60,7 +60,7 @@ const upload = multer({
     limits: {
         fileSize: 1024 * 1024 * 6,
     },
-    fileFilter: fileFilter,
+    // fileFilter: fileFilter,
 });
 
 
@@ -90,8 +90,8 @@ db.once("open", () => {
         res.send("we are in line");
     })
 
-
-    app.patch("/add/image/:id", upload.single('coverImage'), async (req, res) => {
+    // updating lesson image
+    app.patch("/api/add/image/:id", upload.single('coverImage'), async (req, res) => {
         let id = req.params.id;
         try {
             const updateLession = await Lession.findByIdAndUpdate(
@@ -105,6 +105,25 @@ db.once("open", () => {
             res.status(200).json(updateLession); // Corrected variable name
         } catch (error) {
             res.status(500).json({ message: "Failed to update lesson", error: error.message }); // Corrected message
+        }
+    });
+
+    // updating studentImage
+
+    app.patch("/api/add/student_image/:id", upload.single('profileImage'), async (req, res) => {
+        let id = req.params.id;
+        try {
+            const updateStudentImg = await Student.findByIdAndUpdate(
+                id, 
+                { $set: { profileImage: req.file.path } },
+                { new: true }
+            );
+            if (!updateStudentImg) {
+                return res.status(404).json({ message: "student not found" });
+            }
+            res.status(200).json(updateStudentImg); 
+        } catch (error) {
+            res.status(500).json({ message: "Failed to update student", error: error.message }); // Corrected message
         }
     });
 
