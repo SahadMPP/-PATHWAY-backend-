@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 
 
-
-
-
 const studentSchema = new mongoose.Schema({
     name: String,
     age: String,
@@ -12,7 +9,7 @@ const studentSchema = new mongoose.Schema({
     mobNumber: {
         type: String,
     },
-    subjects: [String],
+    lessonId: [String],
     active: {
         type: Boolean,
         default: true,

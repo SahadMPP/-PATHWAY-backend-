@@ -11,7 +11,7 @@ const path = require("path");
 
 const app = express();
 
-app.use("/uploads",express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 
 app.use(express.json());
@@ -33,6 +33,8 @@ const Complaint = require("./complaint");
 
 const Lession = require("./lession");
 
+const Progress = require("./prograss");
+
 // image codes setups
 
 //multer conficaration
@@ -43,7 +45,7 @@ const storage = multer.diskStorage({
 
     },
     filename: (req, file, cb) => {
-        cb(null,req.params.id+".jpg");
+        cb(null, req.params.id + ".jpg");
     },
 });
 
@@ -95,7 +97,7 @@ db.once("open", () => {
         let id = req.params.id;
         try {
             const updateLession = await Lession.findByIdAndUpdate(
-                id, 
+                id,
                 { $set: { coverImage: req.file.path } },
                 { new: true }
             );
@@ -114,14 +116,14 @@ db.once("open", () => {
         let id = req.params.id;
         try {
             const updateStudentImg = await Student.findByIdAndUpdate(
-                id, 
+                id,
                 { $set: { profileImage: req.file.path } },
                 { new: true }
             );
             if (!updateStudentImg) {
                 return res.status(404).json({ message: "student not found" });
             }
-            res.status(200).json(updateStudentImg); 
+            res.status(200).json(updateStudentImg);
         } catch (error) {
             res.status(500).json({ message: "Failed to update student", error: error.message }); // Corrected message
         }
@@ -533,7 +535,47 @@ db.once("open", () => {
     });
 
 
+    // progress Api ---------------------------
 
+    app.post("/api/add_progress", async (req, res) => {
+        let data = Progress(req.body);
+
+        try {
+            let updateProgress = await data.save();
+            res.status(200).json(updateProgress);
+        } catch (error) {
+            res.status(400).json({
+                "status": error.massage
+            });
+        }
+
+    });
+
+    app.delete("/api/delete_progress/:id", async (req, res) => {
+        let id = req.params.id;
+        try {
+            var deletedData = await Progress.findByIdAndDelete(id);
+            res.status(200).json({
+                "status": "delete successfully",
+            })
+        } catch (error) {
+            res.status(400).json({
+                "Status": error.massage
+            })
+        }
+
+    });
+     
+    app.get("/api/get_progress",async(req,res)=>{
+       try {
+        let data = await Progress.find();
+        res.status(200).json(data);
+       } catch (error) {
+        res.status(404).json({
+            "Status": error.massage
+        })
+       }
+    });
 });
 
 

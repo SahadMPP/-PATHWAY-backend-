@@ -28,7 +28,7 @@ const tutorialSchema = new mongoose.Schema({
   },
   creatorId: {
     type: String,
-    default: 0
+    default: ""
   },
   watchTime: {
     type: Number,
@@ -44,7 +44,6 @@ const tutorialSchema = new mongoose.Schema({
   }
 });
 
-// Create a model from the schema
 const Lession = mongoose.model('Lession', tutorialSchema);
 
 module.exports = Lession;
