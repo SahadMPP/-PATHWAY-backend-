@@ -28,6 +28,10 @@ const progressSchema = new mongoose.Schema({
       studentId: {
         type: String,
         required: true
+      },
+      lessonId: {
+        type: String,
+        required: true
       }
 
 });
