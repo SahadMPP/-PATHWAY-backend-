@@ -9,10 +9,14 @@ const multer = require('multer');
 
 const path = require("path");
 
+const cors = require("cors");
+
+
 const app = express();
 
 app.use("/uploads", express.static("uploads"));
 
+app.use(cors());
 
 app.use(express.json());
 
@@ -35,6 +39,7 @@ const Lession = require("./lession");
 
 const Progress = require("./prograss");
 
+const Subject = require("./subject");
 // image codes setups
 
 //multer conficaration
@@ -576,6 +581,50 @@ db.once("open", () => {
         })
        }
     });
+
+    app.get("/api/get_progressById/:id", async (req, res) => {
+        let id = req.params.id;
+        try {
+            let data = await Progress.findById(id);
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(404).json({
+                "Status": "Data not found",
+                "error": error.massage,
+            })
+        }
+    });
+
+
+    // subject ---------------------
+
+    app.get("/api/get_subject",async(req,res)=>{
+        try {
+         let data = await Subject.find();
+         res.status(200).json(data);
+        } catch (error) {
+         res.status(404).json({
+             "Status": error.massage
+         })
+        }
+     });
+
+     app.put("/api/update_subject/:id", async (req, res) => {
+        const tutorialId = req.params.id;
+        const updateData = req.body;
+        
+        try {
+            const updatedSubject = await Subject.findByIdAndUpdate(tutorialId, updateData, { new: true });
+            if (!updatedSubject) {
+                return res.status(404).json({ message: "Subject not found" });
+            }
+            res.status(200).json(updatedSubject);
+        } catch (error) {
+
+            res.status(500).json({ message: "Failed to update Subject", error: error.message });
+        }
+    });
+ 
 });
 
 

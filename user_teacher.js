@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema({
   mobNumber: {
     type: String,
   },
+  moneyMade: {
+    type: Number,
+  },
   universityName: {
     type: String,
   },
