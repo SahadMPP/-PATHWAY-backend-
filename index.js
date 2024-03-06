@@ -594,8 +594,24 @@ db.once("open", () => {
             })
         }
     });
+    
 
+    app.put("/api/update_progress/:id", async (req, res) => {
+        const tutorialId = req.params.id;
+        const updateData = req.body;
+        
+        try {
+            const updatedSubject = await Progress.findByIdAndUpdate(tutorialId, updateData, { new: true });
+            if (!updatedSubject) {
+                return res.status(404).json({ message: "progress card not found" });
+            }
+            res.status(200).json(updatedSubject);
+        } catch (error) {
 
+            res.status(500).json({ message: "Failed to update progress", error: error.message });
+        }
+    });
+    
     // subject ---------------------
 
     app.get("/api/get_subject",async(req,res)=>{
