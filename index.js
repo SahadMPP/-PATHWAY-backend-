@@ -640,6 +640,20 @@ db.once("open", () => {
             res.status(500).json({ message: "Failed to update Subject", error: error.message });
         }
     });
+
+    app.get("/api/get_subjectById/:subjectName", async (req, res) => {
+        try {
+            const subjectName = req.params.subjectName;
+            const data = await Subject.findOne({ subject: subjectName });
+            if (!data) {
+                return res.status(404).json({ message: "Subject not found" });
+            }
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    });
+    
  
 });
 
