@@ -430,7 +430,7 @@ db.once("open", () => {
         }
     });
     // update student
-    app.patch("/api/update_student/:id", async (req, res) => {
+    app.put("/api/update_student/:id", async (req, res) => {
         let studentId = req.params.id;
         let updateData = req.body;
         let options = { new: true };

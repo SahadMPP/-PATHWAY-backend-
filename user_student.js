@@ -7,9 +7,7 @@ const studentSchema = new mongoose.Schema({
     email: String,
     password: String,
     orderValue: Number,
-    mobNumber: {
-        type: String,
-    },
+    mobNumber: String,
     lessonId: [String],
     active: {
         type: Boolean,

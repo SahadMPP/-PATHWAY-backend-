@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema({
   },
   mobNumber: {
     type: String,
+    required: true
+
   },
   moneyMade: {
     type: Number,
