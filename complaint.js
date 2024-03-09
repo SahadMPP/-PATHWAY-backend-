@@ -9,6 +9,10 @@ let complaintDataSchema = new mongoose.Schema({
         required : true,
         type : String
     },
+    "dataTime":{
+        required : true,
+        type : String
+    },
 })
 
 module.exports = mongoose.model("Complaint",complaintDataSchema);
