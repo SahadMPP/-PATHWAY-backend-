@@ -5,19 +5,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
+  email: String,
   password: {
     type: String,
     required: true
   },
   mobNumber: {
     type: String,
-    required: true
-
   },
   moneyMade: {
     type: Number,
