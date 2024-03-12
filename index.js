@@ -115,7 +115,7 @@ db.once("open", () => {
         }
     });
 
-    // updating studentImage
+    // updating profile image studentImage
 
     app.patch("/api/add/student_image/:id", upload.single('profileImage'), async (req, res) => {
         let id = req.params.id;
@@ -131,6 +131,26 @@ db.once("open", () => {
             res.status(200).json(updateStudentImg);
         } catch (error) {
             res.status(500).json({ message: "Failed to update student", error: error.message }); // Corrected message
+        }
+    });
+
+
+     // updating  proflie image studentImage
+
+    app.patch("/api/add/teacher_image/:id", upload.single('profileImage'), async (req, res) => {
+        let id = req.params.id;
+        try {
+            const updateTeacherImg = await Teacher.findByIdAndUpdate(
+                id,
+                { $set: { profileImage: req.file.path } },
+                { new: true }
+            );
+            if (!updateTeacherImg) {
+                return res.status(404).json({ message: "Teacher not found" });
+            }
+            res.status(200).json(updateTeacherImg);
+        } catch (error) {
+            res.status(500).json({ message: "Failed to update Teacher", error: error.message }); // Corrected message
         }
     });
 
