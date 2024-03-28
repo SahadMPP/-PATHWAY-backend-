@@ -10,7 +10,7 @@ const tutorialSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  profileImage: {
+  lessonProfileImage: {
     type: String,
     default : ""
   },

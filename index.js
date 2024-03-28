@@ -117,12 +117,12 @@ db.once("open", () => {
 
     // updating lesson profile image
 
-    app.patch("/api/add/image_lessonProfile/:id", upload.single('profileImage'), async (req, res) => {
+    app.patch("/api/add/image_lessonProfile/:id", upload.single('lessonProfileImage'), async (req, res) => {
         let id = req.params.id;
         try {
             const updateLession = await Lession.findByIdAndUpdate(
                 id,
-                { $set: { profileImage: req.file.path } },
+                { $set: { lessonProfileImage: req.file.path } },
                 { new: true }
             );
             if (!updateLession) {
