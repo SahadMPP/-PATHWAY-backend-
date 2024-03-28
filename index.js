@@ -94,16 +94,35 @@ db.once("open", () => {
     console.log("connected in mongodb")
 
     app.get("/", function (req, res) {
-        res.send("we are in line");
+        res.send("we are in line locally");
     })
 
-    // updating lesson image
-    app.patch("/api/add/image/:id", upload.single('coverImage'), async (req, res) => {
+    // updating lesson cover image
+    app.patch("/api/add/image_coverImage/:id", upload.single('coverImage'), async (req, res) => {
         let id = req.params.id;
         try {
             const updateLession = await Lession.findByIdAndUpdate(
                 id,
                 { $set: { coverImage: req.file.path } },
+                { new: true }
+            );
+            if (!updateLession) {
+                return res.status(404).json({ message: "Lesson not found" });
+            }
+            res.status(200).json(updateLession); // Corrected variable name
+        } catch (error) {
+            res.status(500).json({ message: "Failed to update lesson", error: error.message }); // Corrected message
+        }
+    });
+
+    // updating lesson profile image
+
+    app.patch("/api/add/image_lessonProfile/:id", upload.single('profileImage'), async (req, res) => {
+        let id = req.params.id;
+        try {
+            const updateLession = await Lession.findByIdAndUpdate(
+                id,
+                { $set: { profileImage: req.file.path } },
                 { new: true }
             );
             if (!updateLession) {
